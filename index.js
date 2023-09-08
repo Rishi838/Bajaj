@@ -12,7 +12,7 @@ function checkString(string) {
 }
 
 app.get("/", (req, res) => {
-    res.send("B")
+    res.send("This is base route for the all api's")
 });
 
 // Declaring post method on bhfl route
