@@ -7,6 +7,10 @@ const app = express();
 
 app.use(express.json());
 
+function checkString(string) {
+  return /^[0-9]*$/.test(string);
+}
+
 app.get("/", (req, res) => {
     res.send("B")
 });
@@ -21,37 +25,61 @@ app.post("/bhfl", (req, res) => {
         return res.status(404).json({
             "is_success":false,
              "user_id" : "rishi_dhingra_18072002",
-             "roll_number": "RA2011026030097"
-
+             "roll_number": "RA2011026030097",
+             "email" : "rd8744@srmist.edu.in",
         })
     }
 
     // Handling the cases when proper data is provided
+    const data = req.body.data
     const numbers = []
     const alphabets= []
     let highest_alphabet=''
-    let ans;
+    let ans=' ';
+    for(let i=0;i<data.length;i++){
+       
+      // Check if string is numeric
+      console.log(data[i],checkString(data[i]))
+      if(checkString(data[i])){
+          numbers.push(data[i]);
+      }else{
+          alphabets.push(data[i]);
+  
+          // Handling logic for finding highest alphabet
+          const lowercase_string= data[i].toLowerCase()
+          const char = lowercase_string[0];
+
+            if (highest_alphabet === null || char > highest_alphabet) {
+              highest_alphabet = char
+              ans = data[i][0]
+        }
+        
+      }
+    }
+    res.status(200).json({
+      "is_success":true,
+      "user_id" : "rishi_dhingra_18072002",
+      "email" : "rd8744@srmist.edu.in",
+      "roll_number": "RA2011026030097",
+      "numbers" : numbers,
+      "alphabets" : alphabets,
+      "highest_alphabet": ans == ' ' ? "" : ans 
+    })
+
 
     // Storing data in new arrays and highest alphabet
-
-    for(let i=0;i<req.body.data.length;i++){
-       
-    // Check if string is numeric
-    if(isNumeric(req.body.data[i])){
-        numbers.push(req.body.data[i]);
-    }else{
-        alphabets.push(req.body.data[i]);
-
-        // Handling logic for finding highest alphabet
-        const lowercase_letter=  req.body.data[i].toLowerCase()
-        const char = req.body.data[i][0];
-        if(char > highest_alphabet){
-            ans = req.body.data[i][0]
-        }
-    }
-    console.log(numbers,alphabets,highest_alphabet)
-    }
-  } catch (error) {}
+     
+    
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({
+            "is_success":false,
+             "user_id" : "rishi_dhingra_18072002",
+             "roll_number": "RA2011026030097",
+             "email" : "rd8744@srmist.edu.in",
+             "message" : "Some Error Occured"
+    })
+  }
 });
 
 // Declaring get method on bhfl route
