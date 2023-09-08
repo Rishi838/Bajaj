@@ -35,7 +35,7 @@ app.post("/bhfl", (req, res) => {
     const numbers = []
     const alphabets= []
     let highest_alphabet=''
-    let ans=' ';
+    let ans=[];
     for(let i=0;i<data.length;i++){
        
       // Check if string is numeric
@@ -51,7 +51,7 @@ app.post("/bhfl", (req, res) => {
 
             if (highest_alphabet === null || char > highest_alphabet) {
               highest_alphabet = char
-              ans = data[i][0]
+              ans = [data[i][0]]
         }
         
       }
@@ -63,7 +63,7 @@ app.post("/bhfl", (req, res) => {
       "roll_number": "RA2011026030097",
       "numbers" : numbers,
       "alphabets" : alphabets,
-      "highest_alphabet": ans == ' ' ? "" : ans 
+      "highest_alphabet": ans
     })
 
 
